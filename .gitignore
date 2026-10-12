@@ -1,0 +1,16 @@
+node_modules/
+dist/
+build/
+coverage/
+.env
+.env.*
+!.env.example
+uploads/
+*.xlsx
+*.xls
+*.csv
+~$*
+.DS_Store
+*.log
+.mongodb-binaries/
+.mongo-data/

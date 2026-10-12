@@ -1,0 +1,18 @@
+{
+  "name": "ms-vault-manager",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c cyan,magenta \"npm run dev -w server\" \"npm run dev -w client\"",
+    "build": "npm run build -w client",
+    "test": "npm run test -w server",
+    "seed": "npm run seed -w server",
+    "import:workbook": "npm run import:workbook -w server --"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

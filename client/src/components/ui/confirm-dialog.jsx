@@ -1,0 +1,6 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import * as Dialog from '@radix-ui/react-dialog';
+import { Button } from './button';
+export function ConfirmDialog({ open, title, description, confirmLabel, busy, onConfirm, onOpenChange, children, }) {
+    return (_jsx(Dialog.Root, { open: open, onOpenChange: onOpenChange, children: _jsxs(Dialog.Portal, { children: [_jsx(Dialog.Overlay, { className: "fixed inset-0 z-50 bg-slate-950/55 backdrop-blur-sm" }), _jsxs(Dialog.Content, { className: "fixed left-1/2 top-1/2 z-50 w-[min(100%-2rem,32rem)] -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-slate-200 bg-white p-6 shadow-2xl", children: [_jsx(Dialog.Title, { className: "text-lg font-semibold text-slate-950", children: title }), _jsx(Dialog.Description, { className: "mt-2 text-sm leading-6 text-slate-600", children: description }), children, _jsxs("div", { className: "mt-6 flex justify-end gap-2", children: [_jsx(Dialog.Close, { asChild: true, children: _jsx(Button, { variant: "secondary", type: "button", children: "Cancel" }) }), _jsx(Button, { type: "button", onClick: onConfirm, disabled: busy, children: busy ? 'Saving…' : confirmLabel })] })] })] }) }));
+}

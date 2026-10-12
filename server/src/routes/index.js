@@ -1,0 +1,27 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.apiRouter = void 0;
+const express_1 = require("express");
+const importController_1 = require("../controllers/importController");
+const microserviceController_1 = require("../controllers/microserviceController");
+const projectController_1 = require("../controllers/projectController");
+const templateController_1 = require("../controllers/templateController");
+const vaultController_1 = require("../controllers/vaultController");
+const errorHandler_1 = require("../middleware/errorHandler");
+const actor_1 = require("../middleware/actor");
+const upload_1 = require("../middleware/upload");
+exports.apiRouter = (0, express_1.Router)();
+exports.apiRouter.get('/health', (_req, res) => {
+    res.json({ ok: true, service: 'ms-vault-manager' });
+});
+exports.apiRouter.get('/projects', actor_1.requireUser, (0, errorHandler_1.asyncHandler)(projectController_1.getProjects));
+exports.apiRouter.get('/projects/:projectId/environments', actor_1.requireUser, (0, errorHandler_1.asyncHandler)(projectController_1.getEnvironments));
+exports.apiRouter.get('/microservices', actor_1.requireUser, (0, errorHandler_1.asyncHandler)(microserviceController_1.getMicroservices));
+exports.apiRouter.get('/vaults/resolve', actor_1.requireUser, actor_1.requireRevealAccess, (0, errorHandler_1.asyncHandler)(vaultController_1.getResolvedVault));
+exports.apiRouter.post('/vaults/preview-update', actor_1.requireUser, upload_1.spreadsheetUpload.single('file'), actor_1.requireRevealAccess, (0, errorHandler_1.asyncHandler)(vaultController_1.postPreviewUpdate));
+exports.apiRouter.post('/vaults/update', actor_1.requireUser, upload_1.spreadsheetUpload.single('file'), (0, errorHandler_1.asyncHandler)(vaultController_1.postVaultUpdate));
+exports.apiRouter.get('/vaults/:vaultId/versions/by-date', actor_1.requireUser, (0, errorHandler_1.asyncHandler)(vaultController_1.getVaultVersionByDate));
+exports.apiRouter.get('/vaults/:vaultId/versions', actor_1.requireUser, (0, errorHandler_1.asyncHandler)(vaultController_1.getVaultVersions));
+exports.apiRouter.get('/vaults/:vaultId', actor_1.requireUser, actor_1.requireRevealAccess, (0, errorHandler_1.asyncHandler)(vaultController_1.getVaultById));
+exports.apiRouter.get('/templates/vault.xlsx', actor_1.requireUser, templateController_1.downloadTemplate);
+exports.apiRouter.post('/admin/import-workbook', upload_1.spreadsheetUpload.single('file'), actor_1.requireAdminImport, (0, errorHandler_1.asyncHandler)(importController_1.postImportWorkbook));
